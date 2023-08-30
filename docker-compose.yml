@@ -1,0 +1,34 @@
+version: "3.7"
+services:
+  api:
+    build:
+      context: ./app/api
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - ugly-net
+    depends_on:
+      - mysql
+  mysql:
+    container_name: ugly-mysql
+    image: mysql:latest
+    restart: always
+    env_file:
+      - app/api/.env
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${DB_SCHEMA}
+      TZ: Asia/Seoul
+    ports:
+      -  3307:3306
+    networks:
+      - ugly-net
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+volumes:
+  db:
+networks:
+  ugly-net:
