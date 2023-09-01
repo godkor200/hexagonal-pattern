@@ -1,5 +1,7 @@
 FROM node:18.16.1-alpine
 
+ENV TZ=Asia/Seoul
+
 WORKDIR /usr/app
 
 COPY ./ /usr/app
