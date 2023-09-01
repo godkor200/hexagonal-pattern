@@ -1,13 +1,29 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
+import { LessonEntity } from './lesson.entity';
 
-@Entity()
+@Entity('Customers')
 export class CustomersEntity {
   @PrimaryGeneratedColumn()
-  id: string;
+  id?: string;
 
   @Column({ length: 500 })
   username: string;
 
   @Column({ length: 500 })
-  password_hashed: string;
+  password: string;
+
+  @Column({ length: 255 })
+  name: string;
+
+  @Column({ name: 'phone_number', length: 20 })
+  phoneNumber: string;
+
+  @OneToMany(() => LessonEntity, (lesson) => lesson.customer)
+  lessons: LessonEntity[];
 }
