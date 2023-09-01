@@ -26,9 +26,9 @@ export class CoachesRepository
     } catch (err) {
       throw new HttpException(
         {
-          message: err.sqlMessage,
+          message: err,
         },
-        HttpStatus.FORBIDDEN,
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
