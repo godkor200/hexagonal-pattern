@@ -1,5 +1,15 @@
 export const GET_LESSON_INFO_LIST = Symbol('GET_LESSON_INFO_LIST');
 
-export const GET_COACHES_INFO = Symbol('GET_COACHES_INFO');
+export const COACH_REPOSITORY = Symbol('COACH_REPOSITORY');
 
-export const GET_LESSON_LIST = Symbol('GET_LESSON_LIST');
+export const LESSON_REPOSITORY = Symbol('LESSON_REPOSITORY');
+
+export const POST_LESSON = Symbol('POST_LESSON');
+
+export const CUSTOMERS_REPOSITORY = Symbol('CUSTOMERS_REPOSITORY');
+
+export const GET_LESSON_INFO = Symbol('GET_LESSON_INFO');
+
+export const PUT_LESSON = Symbol('PUT_LESSON');
+
+export const DEL_LESSON = Symbol('DEL_LESSON');
