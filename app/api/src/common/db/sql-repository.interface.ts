@@ -3,7 +3,7 @@ export interface IResDto {
 }
 
 export type updateObject = {
-  id: string;
+  id: string | number;
   [key: string]: any;
 };
 export interface RepositoryPort<Entity> {
