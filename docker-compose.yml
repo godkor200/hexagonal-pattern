@@ -10,6 +10,8 @@ services:
       - ugly-net
     depends_on:
       - mysql
+    volumes:
+      - ./app:/app
   mysql:
     container_name: ugly-mysql
     image: mysql:latest
@@ -27,6 +29,7 @@ services:
     networks:
       - ugly-net
     volumes:
+      - ./db/mysql:/var/lib/mysql
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
 volumes:
   db:
