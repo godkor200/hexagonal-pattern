@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { CustomersEntity as Customer } from './customers.entity';
 import { CoachesEntity as Coach } from './coaches.entity';
 import { CourtsEntity as Court } from './courts.entity';
@@ -16,7 +22,7 @@ import { CourtsEntity as Court } from './courts.entity';
 @Entity('Lessons')
 export class LessonEntity {
   @PrimaryGeneratedColumn({ name: 'id' })
-  id: string;
+  id?: number;
 
   @Column({ type: 'int', name: 'customer_id' })
   customerId: number;
@@ -46,12 +52,24 @@ export class LessonEntity {
   })
   lessonType: string;
 
-  // @ManyToOne(() => Customer,(Customer)=>Customer.id)
-  // customer: Customer;
-  //
-  // @ManyToOne(() => Coach,(Coach)=>Coach.id)
-  // coach: Coach;
-  //
-  // @ManyToOne(() => Court,(Court)=>Court.id)
-  // court: Court;
+  @Column({
+    name: 'day_of_week',
+    enum: [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ],
+  })
+  dayOfweek: string;
+
+  @Column({ name: 'is_cancelled', type: 'boolean' })
+  isCancelled?: Boolean;
+
+  @ManyToOne(() => Customer, (customer) => customer.lessons)
+  @JoinColumn({ referencedColumnName: 'id', name: 'customer_id' })
+  customer?: Customer;
 }
