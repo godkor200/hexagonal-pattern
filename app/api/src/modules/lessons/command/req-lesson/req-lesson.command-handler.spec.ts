@@ -134,7 +134,8 @@ export const lessonData: LessonEntity[] = [
     lessonType: 'three_times_a_week',
     dayOfweek: 'Friday',
     isCancelled: false,
-  },  {
+  },
+  {
     id: 11,
     customerId: 4,
     coachId: 1,

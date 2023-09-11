@@ -73,17 +73,20 @@ export class PutLessonInfoCommandHandler implements PutLessonInfoInboundPort {
     }
     const idx = userLesson.map((e) => e.id);
     try {
-      const res = await this.customersRepository.putCustomerNameAndPhoneNumber({
-        ...query,
-        phoneNumber,
-        customerName,
-      });
-      return await this.lessonRepository.putLessonInfo({
-        idx,
-        coachId: coach.id.toString(),
-        timesPerWeek,
-        lessonTimes,
-        endTime,
+      return await this.customersRepository.transaction(async () => {
+        const res =
+          await this.customersRepository.putCustomerNameAndPhoneNumber({
+            ...query,
+            phoneNumber,
+            customerName,
+          });
+        return await this.lessonRepository.putLessonInfo({
+          idx,
+          coachId: coach.id.toString(),
+          timesPerWeek,
+          lessonTimes,
+          endTime,
+        });
       });
     } catch (err) {
       throw new HttpException(

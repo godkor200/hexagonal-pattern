@@ -89,7 +89,7 @@ export abstract class SqlRepositoryBase<E> implements RepositoryPort<E> {
         // 여기서 transactionalEntityManager 를 사용해 데이터베이스 작업을 수행하면,
         // 모든 작업은 동일한 트랜잭션에 속하게 됩니다.
         // 이 객체를 필요한 곳에 전달하는 로직을 구현할 수 있습니다.
-
+        console.log(transactionalEntityManager);
         try {
           const result = await handler();
           return result;

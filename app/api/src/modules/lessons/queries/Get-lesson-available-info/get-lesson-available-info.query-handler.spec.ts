@@ -40,9 +40,11 @@ describe('레슨 가능 시간', () => {
     ).toEqual(list);
   });
 
-   it("isTimeSlotOccupied 메소드로 김민준 코치의 30분 '2023-09-06 12:00:00 레슨을 받을수 있을까 테스트",()=>{
-       const kimCoachLessons = lessonData.filter((e) => e.coachId == 1);
+  it("isTimeSlotOccupied 메소드로 김민준 코치의 30분 '2023-09-06 12:00:00 레슨을 받을수 있을까 테스트", () => {
+    const kimCoachLessons = lessonData.filter((e) => e.coachId == 1);
 
-       expect(handler.isTimeSlotOccupied("2023-09-06 12:00:00",kimCoachLessons)).toBe(true)
-   })
+    expect(
+      handler.isTimeSlotOccupied('2023-09-06 12:00:00', kimCoachLessons),
+    ).toBe(true);
+  });
 });
