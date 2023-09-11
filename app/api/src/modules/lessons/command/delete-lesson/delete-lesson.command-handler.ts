@@ -23,7 +23,14 @@ export class DeleteLessonCommandHandler implements DelLessonInboundPort {
       await this.customersRepository.getCustomerAndLessonsByPassword(
         arg.password,
       );
-
+    if (!userAndLessons) {
+      throw new HttpException(
+        {
+          message: '유져을 찾을수 없습니다',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
     const lessonIdCheck = userAndLessons.lessons.find(
       (e) => e.id == Number(arg.lessonId),
     );
