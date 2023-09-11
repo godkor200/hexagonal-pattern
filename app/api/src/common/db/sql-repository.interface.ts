@@ -12,5 +12,5 @@ export interface RepositoryPort<Entity> {
   findOneById(id: string): Promise<Entity>;
   findAll(): Promise<Entity[]>;
   delete(id: string): Promise<boolean>;
-  transaction<T>(handler: () => Promise<T>): Promise<T | void>;
+  transaction<T>(handler: () => Promise<T>): Promise<T>;
 }

@@ -1,12 +1,18 @@
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, EntityManager, Repository } from 'typeorm';
 import {
   IResDto,
   RepositoryPort,
   updateObject,
 } from './sql-repository.interface';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { InjectEntityManager } from '@nestjs/typeorm';
 export abstract class SqlRepositoryBase<E> implements RepositoryPort<E> {
-  constructor(private dataSource: DataSource) {}
+  protected constructor(
+    private readonly dataSource: DataSource,
+
+    @InjectEntityManager()
+    private readonly entityManager: EntityManager,
+  ) {}
   protected abstract tableName: string;
   protected abstract repository: Repository<E>;
 
@@ -77,19 +83,21 @@ export abstract class SqlRepositoryBase<E> implements RepositoryPort<E> {
     }
   }
 
-  async transaction<T>(handler: () => Promise<T>): Promise<void | T> {
-    const queryRunner = this.dataSource.createQueryRunner();
+  async transaction<T>(handler: () => Promise<T>): Promise<T> {
+    return this.entityManager.transaction(
+      async (transactionalEntityManager) => {
+        // 여기서 transactionalEntityManager 를 사용해 데이터베이스 작업을 수행하면,
+        // 모든 작업은 동일한 트랜잭션에 속하게 됩니다.
+        // 이 객체를 필요한 곳에 전달하는 로직을 구현할 수 있습니다.
 
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-    try {
-      await handler();
-      await queryRunner.commitTransaction();
-    } catch (err) {
-      await queryRunner.rollbackTransaction();
-    } finally {
-      await queryRunner.release();
-    }
+        try {
+          const result = await handler();
+          return result;
+        } catch (e) {
+          throw e;
+        }
+      },
+    );
   }
 
   async updateOne(params: updateObject): Promise<IResDto> {

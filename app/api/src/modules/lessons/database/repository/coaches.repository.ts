@@ -1,6 +1,6 @@
 import { SqlRepositoryBase } from '../../../../common/db/sql-repository.base';
 import { CoachesEntity } from '../entitity/coaches.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, EntityManager, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CoachesRepositoryPort } from './coaches.repository.port';
 import { HttpException, HttpStatus } from '@nestjs/common';
@@ -13,8 +13,8 @@ export class CoachesRepository
   @InjectRepository(CoachesEntity)
   protected readonly repository: Repository<CoachesEntity>;
 
-  constructor(dataSource: DataSource) {
-    super(dataSource);
+  constructor(dataSource: DataSource, entityManager: EntityManager) {
+    super(dataSource, entityManager);
   }
 
   async findOneByCoachName(coachName: string): Promise<CoachesEntity> {

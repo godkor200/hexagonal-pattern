@@ -1,6 +1,6 @@
 import { SqlRepositoryBase } from '../../../../common/db/sql-repository.base';
 import { LessonEntity } from '../entitity/lesson.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Repository, EntityManager } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { HttpException, HttpStatus } from '@nestjs/common';
@@ -20,8 +20,8 @@ export class LessonRepository
   @InjectRepository(LessonEntity)
   protected readonly repository: Repository<LessonEntity>;
 
-  constructor(dataSource: DataSource) {
-    super(dataSource);
+  constructor(dataSource: DataSource, entityManager: EntityManager) {
+    super(dataSource, entityManager);
   }
   async softDelLesson(id: string): Promise<Boolean> {
     try {

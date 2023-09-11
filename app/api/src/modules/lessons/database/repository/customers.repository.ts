@@ -1,6 +1,6 @@
 import { SqlRepositoryBase } from '../../../../common/db/sql-repository.base';
 import { CustomersEntity } from '../entitity/customers.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, EntityManager, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CustomersRepositoryPort } from './customers.repository.port';
 import { ICustomerDao } from '../../interface/req-lesson.interface';
@@ -18,8 +18,8 @@ export class CustomersRepository
   @InjectRepository(CustomersEntity)
   protected repository: Repository<CustomersEntity>;
 
-  constructor(dataSource: DataSource) {
-    super(dataSource);
+  constructor(dataSource: DataSource, entityManager: EntityManager) {
+    super(dataSource, entityManager);
   }
 
   async getCustomerAndLessonsByPassword(
